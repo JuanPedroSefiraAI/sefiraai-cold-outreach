@@ -1,0 +1,307 @@
+{
+  "name": "correos_custom",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        144,
+        -208
+      ],
+      "id": "062450d3-7e26-4b85-9571-07d7965820ec",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-nano"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        912,
+        64
+      ],
+      "id": "f6e3a13a-cb88-4a9d-9ea0-995b0fa803c6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "rNAQlxV6A5B2wzFK",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"asunto\": {\n      \"type\": \"string\",\n      \"description\": \"Asunto del correo personalizado\"\n    },\n    \"cuerpo\": {\n      \"type\": \"string\",\n      \"description\": \"Cuerpo completo del correo en frío\"\n    }\n  },\n  \"required\": [\"asunto\", \"cuerpo\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1152,
+        32
+      ],
+      "id": "e87b4397-924a-49e4-90b1-664e7721992a",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1SP6hk29PlB-MGDy_gT1moWAbZQNUR8Fbl6Ecg9jTLbg",
+          "mode": "list",
+          "cachedResultName": "cold_outreach",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SP6hk29PlB-MGDy_gT1moWAbZQNUR8Fbl6Ecg9jTLbg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SP6hk29PlB-MGDy_gT1moWAbZQNUR8Fbl6Ecg9jTLbg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "asunto": "={{ $json.output.properties.asunto.description }}",
+            "cuerpo": "={{ $json.output.properties.cuerpo.description }}",
+            "country": "={{ $('leads').item.json.personCountry }}",
+            "email": "={{ $('leads').item.json.email }}",
+            "first_name": "={{ $('leads').item.json.firstName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "asunto",
+              "displayName": "asunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cuerpo",
+              "displayName": "cuerpo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "first_name",
+              "displayName": "first_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1328,
+        -208
+      ],
+      "id": "a8fe5042-0317-43eb-97b8-73a0930f8c71",
+      "name": "cold_outreach",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "LRYCWFAtNkUj0ka0",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1VmRXChO77mGarTnzwU2scEi3hMgkU7kL5EcIv1pY_r0",
+          "mode": "list",
+          "cachedResultName": "LEADS_DEFINITIVO",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VmRXChO77mGarTnzwU2scEi3hMgkU7kL5EcIv1pY_r0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1018034809,
+          "mode": "list",
+          "cachedResultName": "Leads_SefiraAI_Total",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VmRXChO77mGarTnzwU2scEi3hMgkU7kL5EcIv1pY_r0/edit#gid=1018034809"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        352,
+        -208
+      ],
+      "id": "b6bf7ce5-a0b7-464a-9647-ffd0ded2c67f",
+      "name": "leads",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "W3AkwFFH3a4ZZS4k",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Quiero que generes un correo en frío altamente persuasivo, breve (máximo 150 palabras), con el objetivo de captar la atención de un potencial cliente. El correo debe seguir esta estructura:\n\n1. Saludo personalizado con el nombre real del destinatario.\n2. Menciona su empresa y sector de forma natural.\n3. Identifica un problema concreto relacionado con su sector.\n4. Ofrece una solución breve sin compromiso.\n5. Llamada a la acción simple — responder al correo para coordinar una llamada de 15 minutos.\n\nUsa un tono profesional, cercano y enfocado al beneficio del destinatario. NO uses plantillas genéricas. Personaliza cada correo con los datos reales proporcionados.\n\nIMPORTANTE: Usa estos datos reales en el correo, no escribas placeholders como [Nombre] o [Empresa]:\n- El nombre real del destinatario es: {{ $json.Nombre }}\n- La empresa real es: {{ $json.Empresa }}\n- Su cargo real es: {{ $json.Cargo }}\n- Su sector real es: {{ $json.Sector }}\n- Su país real es: {{ $json.Pais }}\n\nContexto de quien envía:\n- Agencia: Sefira AI\n- Propuesta: Automatización de soporte IT y procesos repetitivos para PYMEs mediante n8n y Claude API\n- Oferta: Primera consultoría gratuita, resultados en 30 días\n- Cliente ideal: PYMEs y equipos IT que pierden tiempo en tareas manuales\n\nResponde ÚNICAMENTE con un objeto JSON válido con exactamente esta estructura, sin explicaciones ni texto adicional:\n\n{\n  \"asunto\": \"escribe aquí el asunto personalizado\",\n  \"cuerpo\": \"escribe aquí el cuerpo completo del correo terminando con Un saludo,\"\n}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        832,
+        -208
+      ],
+      "id": "17f51853-14d0-4e66-ab04-6a3b27303d6e",
+      "name": "customizador correos.",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "maxItems": 100
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        576,
+        -208
+      ],
+      "id": "379956b5-445a-4666-9713-d0893f787d80",
+      "name": "Limit"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "customizador correos.",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "customizador correos.",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "leads": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "customizador correos.": {
+      "main": [
+        [
+          {
+            "node": "cold_outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "customizador correos.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b181f62a-b4dc-4c83-8569-e2958a248f64",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9870bb2e842136c40c89dd0f1d6dd8b3338b29ca4b39893271c746b0e5514d05"
+  },
+  "id": "lBtLiPWGGnkAvVrp",
+  "tags": []
+}
